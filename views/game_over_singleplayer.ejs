@@ -1,0 +1,34 @@
+<%- include('partials/head') %>
+    <div class="container game-container">
+        <h1 class="master-word-title go-sp-title">Game Over</h1>
+        
+        <div class="game-main">
+            <div class="left-panel go-sp-left">
+                <h2 class="go-sp-score">Final Score: <span id="final-score">15</span></h2>
+                <p class="go-sp-stat">Correct Words: <span id="correct-words">5</span></p>
+                <p class="go-sp-stat-mb">Wrong Words: <span id="wrong-words">2</span></p>
+
+                <div class="go-sp-btns">
+                    <a href="/game/singleplayer" class="btn btn-submit btn-no-margin w-300">Play Again</a>
+                    <a href="/menu" class="btn btn-submit btn-no-margin w-300">Back to Menu</a>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="words-found-box">
+                    <h2>Words Found:</h2>
+                    <!-- Example words -->
+                    <ol class="found-words-list">
+                        <li>SOL <span>(x pts)</span></li>
+                        <li>LIDA <span>(y pts)</span></li>
+                        <li>IDA <span>(z pts)</span></li>
+                        <li>IDADE <span>(x pts)</span></li>
+                        <li>SOLIDA <span>(y pts)</span></li>
+                    </ol>
+                    <p class="undiscovered">[x] undiscovered words</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

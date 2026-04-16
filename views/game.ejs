@@ -1,0 +1,41 @@
+<%- include('partials/head') %>
+    <div class="game-container container">
+        <div class="game-header">
+            <div class="timer">Timer: <span id="time-left">60</span> seconds left</div>
+            <a href="/menu" class="btn btn-small">Exit Game</a>
+        </div>
+
+        <h1 class="master-word-title">Master Word: <i>SOLIDADERIEDADE</i></h1>
+
+        <div class="game-main">
+            <div class="left-panel">
+                <div class="score-board">
+                    <p>Score: <span id="score">0</span></p>
+                    <p>Wrong Words: <span id="wrong">0</span></p>
+                    <p>Correct Words: <span id="correct">0</span></p>
+                </div>
+            </div>
+
+            <div class="center-panel">
+                <label for="guess" class="enter-word-label">Enter word:</label>
+                <input type="text" id="guess" class="guess-input">
+                <a href="/game/singleplayer/gameover" class="btn btn-no-margin" id="submit-btn" style="margin-top: 0.5rem;">Submit</a>
+            </div>
+
+            <div class="right-panel">
+                <div class="words-found-box">
+                    <h2>Words Found:</h2>
+                    <ul id="found-words-list" class="found-words-list">
+                        <!-- Discovered words go here -->
+                    </ul>
+                    <p class="undiscovered">[x] undiscovered words</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Assuming we will add logic later, but keeping skeleton intact -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/game.js"></script>
+</body>
+</html>

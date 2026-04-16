@@ -1,0 +1,20 @@
+{
+  "name": "dbw-2026-g36-matrioska",
+  "version": "1.0.0",
+  "description": "Matrioska de Palavras",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0"
+  }
+}
