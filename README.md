@@ -24,14 +24,14 @@ npm run dev
 ```
 The application will be available at `http://localhost:3000`.
 
-## 🛠️ Technology Stack
+## Technology Stack
 - **Backend**: Node.js & Express
 - **Frontend**: EJS (Embedded JavaScript templates)
 - **Styling**: Vanilla CSS
 - **Database**: MongoDB (Mongoose)
 - **Real-time**: Socket.io
 
-## 📁 Project Structure
+## Project Structure
 - `/controllers`: Logic for handling requests.
 - `/public`: Static assets (CSS, Images, SVGs).
 - `/routes`: Definition of application routes.
@@ -40,4 +40,4 @@ The application will be available at `http://localhost:3000`.
 - `diagrams.md`: Operational flowcharts and system architecture.
 
 ---
-**Figma Prototype**: [View Mockup](https://www.figma.com/proto/B7jb7sNmMkYPDb3Mc2gU8o/Sem-t%C3%ADtulo?node-id=16-3&starting-point-node-id=16%3A3&t=NbMfYbF0ABfhTmP7-1)
+**Figma Prototype**: [View](https://www.figma.com/proto/B7jb7sNmMkYPDb3Mc2gU8o/Sem-t%C3%ADtulo?node-id=16-3&starting-point-node-id=16%3A3&t=NbMfYbF0ABfhTmP7-1)
