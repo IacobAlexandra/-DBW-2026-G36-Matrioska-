@@ -2,7 +2,7 @@
 
 Welcome to the Matrioska de Palavras project repository. This is a university project for the Web Development course (2025-2026).
 
-## 🚀 Getting Started
+## Getting Started
 
 To run this project locally, follow these steps:
 
