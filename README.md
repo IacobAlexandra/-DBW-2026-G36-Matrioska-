@@ -37,7 +37,7 @@ The application will be available at `http://localhost:3000`.
 - `/routes`: Definition of application routes.
 - `/views`: EJS templates for the UI.
 - `index.js`: Main entry point.
-- `diagrams.md`: Operational flowcharts and system architecture.
+- `/diagrams`: Functional architecture diagram and componenents' fluxograms
 
 ---
 **Figma Prototype**: [View](https://www.figma.com/proto/B7jb7sNmMkYPDb3Mc2gU8o/Sem-t%C3%ADtulo?node-id=16-3&starting-point-node-id=16%3A3&t=NbMfYbF0ABfhTmP7-1)
