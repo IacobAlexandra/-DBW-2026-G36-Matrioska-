@@ -1,13 +1,14 @@
 <%- include('partials/head') %>
     <div class="game-container container">
         <div class="game-header">
-            <div class="timer">Timer: <span id="time-left">60</span> seconds left</div>
-            <a href="/menu" class="btn btn-small">Exit Game</a>
+            <div class="timer">Timer: <span id="time-left"><%= timeLimit %></span> seconds left</div>
+            <button id="exit-btn" class="btn btn-small">Exit Game</button>
         </div>
 
-        <h1 class="master-word-title">Master Word: <i>SOLIDADERIEDADE</i></h1>
+        <h1 class="master-word-title">Master Word: <i id="master-word"><%= word %></i> </h1>
 
         <div class="game-main">
+
             <div class="left-panel">
                 <div class="score-board">
                     <p>Score: <span id="score">0</span></p>
@@ -18,24 +19,25 @@
 
             <div class="center-panel">
                 <label for="guess" class="enter-word-label">Enter word:</label>
-                <input type="text" id="guess" class="guess-input">
-                <a href="/game/singleplayer/gameover" class="btn btn-no-margin" id="submit-btn" style="margin-top: 0.5rem;">Submit</a>
+                <input type="text" id="guess" class="guess-input" autocomplete="off">
+                <button class="btn btn-no-margin" id="submit-btn">Submit</button>
+
+                 <p id="feedback-msg"></p>
             </div>
 
             <div class="right-panel">
                 <div class="words-found-box">
                     <h2>Words Found:</h2>
-                    <ul id="found-words-list" class="found-words-list">
-                        <!-- Discovered words go here -->
-                    </ul>
-                    <p class="undiscovered">[x] undiscovered words</p>
+                    <ol id="found-words-list" class="found-words-list"> </ol>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Assuming we will add logic later, but keeping skeleton intact -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/game.js"></script>
+    <script> 
+        window.masterWord = "<%= word %>";
+        window.timeLimit = "<%= timeLimit %>";
+    </script>
+    <script src="/js/singleplayer_game.js"></script>
 </body>
 </html>

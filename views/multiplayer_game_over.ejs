@@ -1,0 +1,41 @@
+<%- include('partials/head') %>
+    <div class="container game-container go-mp-container">
+        <h1 class="master-word-title go-mp-title">Game Over</h1>
+        
+        <div class="game-main go-mp-main">
+            <div class="left-panel go-mp-left">
+                <h2 class="go-mp-score">Final Score: <span id="final-score">0</span></h2>
+                <p class="go-mp-stat">Correct Words: <span id="correct-words">0</span></p>
+                <p class="go-mp-stat">Wrong Words: <span id="wrong-words">0</span></p>
+            </div>
+
+            <div class="center-panel go-mp-center">
+                <h3 class="go-sb-title">Scoreboard:</h3>
+                <div class="go-sb-box">
+                     <ol class="go-sb-ul" id="final-scoreboard">
+                        <li class="go-sb-li">Loading results...</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-main go-mp-main">
+            <div class="left-panel go-mp-left">
+                <div class="go-mp-btns">
+                    <button id="play-again-btn" class="btn btn-submit btn-no-margin">Play Again</button>
+                </div>
+            </div>
+
+            <div class="center-panel go-mp-center">
+                <div class="go-mp-btns">
+                    <a href="/menu" class="btn btn-submit btn-no-margin">Back to Menu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script> window.username = "<%= username %>"; </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/multiplayer_game_over.js"></script>
+</body>
+</html>

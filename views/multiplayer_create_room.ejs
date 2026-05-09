@@ -1,6 +1,6 @@
 <%- include('partials/head') %>
     <div class="container game-container">
-        <h1 class="master-word-title cr-title">Room Code: <span id="room-code">[ROOM_CODE]</span></h1>
+        <h1 class="master-word-title cr-title">Room Code: <span id="room-code">Generating...</span></h1>
         
         <p class="cr-waiting">Waiting for players...</p>
 
@@ -8,27 +8,26 @@
             <div class="left-panel cr-left">
                 <h2 class="cr-h2">Players in room:</h2>
                 
-                <ul class="cr-ul">
+                <ol class="cr-ul" id="player-list">
                     <li class="cr-li">
                         <span class="profile-icon cr-avatar"></span>
-                        1. PlayerOne <span class="cr-sub">(you)</span>
+                        You
                     </li>
-                    <li class="cr-li">
-                        <span class="profile-icon cr-avatar"></span>
-                        2. PlayerTwo
-                    </li>
-                </ul>
+                </ol>
             </div>
 
             <div class="right-panel cr-right">
                 <div class="text-center">
-                    <a href="/game/multiplayer/play" class="btn btn-submit btn-no-margin w-100 btn-submit-flex">Start Game</a>
+                    <button id="start-btn" class="btn btn-submit btn-no-margin w-100 btn-submit-flex">Start Game</button>
                     <p class="cr-status">Status: Waiting for game to start</p>
                 </div>
                 
-                <a href="/game/multiplayer" class="btn btn-secondary btn-submit btn-no-margin w-100">Leave Room</a>
+                <button id="leave-btn" class="btn btn-secondary btn-submit btn-no-margin w-100">Leave Room</button>
             </div>
         </div>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>window.myUsername = "<%= username %>";</script>
+    <script src="/js/multiplayer_create_room.js"></script>
 </body>
 </html>

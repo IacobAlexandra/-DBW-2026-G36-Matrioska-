@@ -3,16 +3,24 @@
         <h1 class="master-word-title cr-title">Join Room</h1>
         
         <div class="game-main jr-main">
-            <div class="jr-input-row">
+            <div class="jr-input-row" id="input-section">
                 <label class="jr-label">Enter Room Code:</label>
-                <input type="text" class="jr-input">
+                <input type="text" id="room-code-input" class="jr-input">
             </div>
+            
+            <p id="status-message" class="text-center" style="display: none; margin-top: 2rem;">
+                Successfully joined! Waiting for host to start...
+            </p>
         </div>
-        
+
         <div class="jr-btns">
-            <a href="/game/multiplayer/play" class="btn btn-submit btn-no-margin w-200">Join</a>
-            <a href="/game/multiplayer" class="btn btn-secondary btn-submit btn-no-margin w-200">Back</a>
+            <button id="join-btn" class="btn btn-submit btn-no-margin w-200">Join</button>
+            <button id="back-btn" class="btn btn-secondary btn-submit btn-no-margin w-200">Back to Menu</button>
         </div>
     </div>
+     <script> window.username = "<%= username %>"; </script>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/multiplayer_join_room.js"></script>
 </body>
 </html>

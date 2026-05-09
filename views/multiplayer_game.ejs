@@ -1,0 +1,48 @@
+<%- include('partials/head') %>
+    <div class="container game-container mp-game-container">
+        <div class="mp-top-right">
+            <button id="exit-btn" class="btn btn-small mp-exit-btn">Exit Game</button>
+        </div>
+        <div class="mp-timer-wrapper">
+             <span class="mp-timer-text">Timer: <span id="time-left">--</span> seconds left</span>
+        </div>
+
+        <h1 class="master-word-title mp-master-word">Master Word: <span id="master-word">Waiting...</span></h1>
+
+        <div class="game-main mp-game-main">
+            <div class="left-panel flex-1">
+                <h3 class="mp-sb-title">Scoreboard:</h3>
+                <div class="mp-sb-box">
+                    <ol class="mp-sb-ul" id="scoreboard-list">
+                        <li class="mp-sb-li">Waiting for players...</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="center-panel">
+                <label class="enter-word-label">Enter word:</label>
+                 <input type="text" id="guess-input" class="guess-input">
+                <button id="submit-btn" class="btn">Submit</button>
+                
+                <p id="feedback-msg" class="feedback-msg"></p>
+            </div>
+
+            <div class="right-panel mp-right-panel">
+                <div class="words-found-box mp-words-box">
+                    <h3 class="mp-wb-title">Words Found:</h3>
+                    <ol id="found-words-list" class="found-words-list mp-wb-list"></ol>
+                </div>
+                
+                <div class="mp-stats-wrapper">
+                    <p class="mp-stat-p">Score: <span id="my-score">0</span></p>
+                    <p class="mp-stat-p">Wrong Words: <span id="my-wrong">0</span></p>
+                    <p class="mp-stat-p">Correct Words: <span id="my-correct">0</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script> window.username = "<%= username %>"; </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/multiplayer_game.js"></script>
+</body>
+</html>
