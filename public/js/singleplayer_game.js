@@ -48,24 +48,41 @@ function submitGuess() {
             li.innerText = data.word;
             document.getElementById('found-words-list').appendChild(li);
 
-            feedback.innerText = "Correct!";
-            feedback.style.color = "green";
+            showToast("Correct! +" + data.points, "success");
         } 
         else if (data.status === "duplicate") {
-            feedback.innerText = "Word already guessed!";
-            feedback.style.color = "orange";
+            showToast("Word already guessed!", "warning");
         } 
         else if (data.status === "invalid") {
             wrongCount++;
             document.getElementById('wrong').innerText = wrongCount;
 
-            feedback.innerText = "Invalid!";
-            feedback.style.color = "red";
+            showToast("Invalid word!", "error");
         }
 
         input.value = "";
     })
     .catch(err => console.error(err));
+}
+
+function showToast(message, type) {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
 }
 
 function endGame() {

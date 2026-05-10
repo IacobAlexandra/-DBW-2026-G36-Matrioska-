@@ -9,7 +9,15 @@ To run this project locally, follow these steps:
 ### 1. Prerequisites
 Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
 
-### 2. Installation
+### 2. Configuration & Database
+This project requires a connection to a MongoDB database (MongoDB Atlas is recommended).
+Create a `.env` file in the root of the project and add your MongoDB connection string:
+```env
+MONGO_URI="mongodb+srv://<user>:<password>@<cluster-url>/?appName=<database>&retryWrites=true&w=majority"
+```
+*(If no `.env` file is provided, the application will attempt to connect to a local MongoDB instance at `mongodb://127.0.0.1:27017/matrioska` or use a temporary local fallback for testing purposes).*
+
+### 3. Installation
 Clone the repository and install the dependencies:
 ```bash
 git clone <repository-url>

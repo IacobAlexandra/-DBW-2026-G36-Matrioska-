@@ -42,47 +42,9 @@ function calculatePoints(word, status, combo) {
     return score;
 }
 
-function getGameContext(req, roomCode) {
-    // MULTIPLAYER
-    if (roomCode && activeRooms[roomCode]) {
-        return { 
-            type: "multiplayer", 
-            room: activeRooms[roomCode] 
-        };
-    }
-    
-    // SINGLEPLAYER
-    if (req.session && req.session.gameData) {
-        return { 
-            type: "singleplayer", 
-            state: req.session.gameData 
-        };
-    }
-    
-    return null;
-}
-
-function evaluateGuess(guess, game) {
-    const found = game.type === "multiplayer" ? game.room.foundWords : game.state.foundWords;
-    
-    const validWords = game.type === "multiplayer" ? game.room.validSubWords : game.state.validSubWords;
-    const upperValidWords = validWords.map(w => w.toUpperCase());
-
-    if (found && found.includes(guess)) {
-        return "duplicate";
-    }
-    if (validWords && validWords.includes(guess)) {
-        return "valid";
-    }
-    
-    return "invalid";
-}
-
-function updateGameState(game, username, guess, status, points) {
-    //MULTIPLAYER
+function getGameState(game, username) {
     if (game.type === "multiplayer") {
         const room = game.room;
-
         if (!room.scores) room.scores = {};
         if (!room.combos) room.combos = {};
         if (!room.wrongWords) room.wrongWords = {};
@@ -91,31 +53,60 @@ function updateGameState(game, username, guess, status, points) {
         if (!room.combos[username]) room.combos[username] = 0;
         if (!room.wrongWords[username]) room.wrongWords[username] = 0;
 
-        room.scores[username] = Math.max(0, room.scores[username] + points);
+        return {
+            foundWords: room.foundWords,
+            validSubWords: room.validSubWords,
+            get score() { return room.scores[username]; },
+            set score(v) { room.scores[username] = v; },
+            get combo() { return room.combos[username]; },
+            set combo(v) { room.combos[username] = v; },
+            get wrongWords() { return room.wrongWords[username]; },
+            set wrongWords(v) { room.wrongWords[username] = v; }
+        };
+    } else {
+        const state = game.state;
+        return {
+            foundWords: state.foundWords,
+            validSubWords: state.validSubWords,
+            get score() { return state.score; },
+            set score(v) { state.score = v; },
+            get combo() { return state.combo; },
+            set combo(v) { state.combo = v; },
+            get wrongWords() { return state.wrongWords; },
+            set wrongWords(v) { state.wrongWords = v; }
+        };
+    }
+}
 
-        if (status === "valid") {
-                room.combos[username] += 1;
-                room.foundWords.push(guess);
-            } 
-            else {
-                room.wrongWords[username] += 1;
-                room.combos[username] = 0;
-            }
+function getGameContext(req, roomCode) {
+    if (roomCode && activeRooms[roomCode]) {
+        return { type: "multiplayer", room: activeRooms[roomCode] };
+    }
+    if (req.session && req.session.gameData) {
+        return { type: "singleplayer", state: req.session.gameData };
+    }
+    return null;
+}
 
-            return;
-        }
-    //SINGLEPLAYER
-    const state = game.state;
+function evaluateGuess(guess, stateObj) {
+    const found = stateObj.foundWords;
+    const validWords = stateObj.validSubWords;
+    
+    if (found && found.includes(guess)) return "duplicate";
+    if (validWords && validWords.includes(guess)) return "valid";
+    
+    return "invalid";
+}
 
-    state.score = Math.max(0, state.score + points);
+function updateGameState(stateObj, guess, status, points) {
+    stateObj.score = Math.max(0, stateObj.score + points);
 
     if (status === "valid") {
-        state.combo += 1;
-        state.foundWords.push(guess);
-    } 
-    else {
-        state.wrongWords += 1;
-        state.combo = 0;
+        stateObj.combo += 1;
+        stateObj.foundWords.push(guess);
+    } else {
+        stateObj.wrongWords += 1;
+        stateObj.combo = 0;
     }
 }
 
@@ -127,45 +118,29 @@ export async function handleGuess(req) {
     console.log(`[2. SERVICE] Processing guess '${upperGuess}' for user '${username}' in room '${roomCode}'`);
 
     if (!guess || typeof guess !== "string") {
-        return {
-            status: "invalid",
-            word: "",
-            points: 0
-        };
+        return { status: "invalid", word: "", points: 0 };
     }
 
     const game = getGameContext(req, roomCode);
-     if (!game) {
+    if (!game) {
         console.log(`[X. SERVICE ERROR] Game Context is NULL! Room doesn't exist.`);
         return { status: "error", message: "Game not found" };
     }
 
-    const status = evaluateGuess(upperGuess, game);
-     console.log(`[3. SERVICE] evaluateGuess returned status: '${status}'`);
+    const stateObj = getGameState(game, username);
+    const status = evaluateGuess(upperGuess, stateObj);
+    console.log(`[3. SERVICE] evaluateGuess returned status: '${status}'`);
 
-    const currentCombo =
-    game.type === "multiplayer"
-        ? (game.room.combos?.[username] || 0)
-        : (game.state.combo || 0);
+    const points = calculatePoints(upperGuess, status, stateObj.combo);
 
-    const points = calculatePoints(upperGuess, status, currentCombo);
-
-    updateGameState(game, username, upperGuess, status, points);
-
-    const newTotalScore = game.type === "multiplayer" 
-        ? game.room.scores[username] 
-        : game.state.score;
-
-    const newCombo = game.type === "multiplayer" 
-        ? game.room.combos[username] 
-        : game.state.combo;
+    updateGameState(stateObj, upperGuess, status, points);
 
     return {
         isValid: status === "valid", 
         status: status, 
         word: upperGuess,
         points: points,
-        totalScore: newTotalScore, 
-        combo: newCombo
+        totalScore: stateObj.score, 
+        combo: stateObj.combo
     };
 }

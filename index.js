@@ -59,12 +59,27 @@ httpServer.listen(PORT, () => {
 });
 
 // MongoDB Connection
-const MONGO_URI = "mongodb://127.0.0.1:27017/matrioska";
+let MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/matrioska";
 
-mongoose.connect(MONGO_URI)
-  .then(() => { 
-      console.log("Connected to MongoDB successfully!"); 
-  })
-  .catch((err) => {
-      console.log("Error connecting to MongoDB:", err);
-  });
+import { MongoMemoryServer } from 'mongodb-memory-server';
+
+async function connectToDatabase() {
+    try {
+        await mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 3000 });
+        console.log("Connected to MongoDB successfully!"); 
+    } catch (err) {
+        console.log("Error connecting to provided MongoDB:", err.message);
+        console.log("Falling back to in-memory MongoDB server...");
+        
+        try {
+            const mongoServer = await MongoMemoryServer.create();
+            MONGO_URI = mongoServer.getUri();
+            await mongoose.connect(MONGO_URI);
+            console.log("Connected to in-memory MongoDB server successfully!");
+        } catch (memErr) {
+            console.log("Error starting in-memory database:", memErr);
+        }
+    }
+}
+
+connectToDatabase();

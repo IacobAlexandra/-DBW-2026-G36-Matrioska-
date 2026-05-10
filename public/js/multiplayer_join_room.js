@@ -28,9 +28,27 @@ socket.on('roomJoined', (roomCode) => {
     document.getElementById('input-section').style.display = 'none';
     document.getElementById('join-btn').style.display = 'none';
     
-    document.getElementById('status-message').style.display = 'block';
+    document.getElementById('lobby-section').style.display = 'block';
     
     sessionStorage.setItem('roomCode', roomCode); 
+});
+
+socket.on('gameStateUpdate', (roomState) => {
+    if (roomState.scores) {
+        const playerList = document.getElementById('player-list');
+        playerList.innerHTML = '';
+        Object.keys(roomState.scores).forEach(player => {
+            const li = document.createElement('li');
+            li.className = 'cr-li';
+            li.id = player;
+            if (player === username) {
+                li.innerHTML = `<span class="profile-icon cr-avatar"></span> ${player} <span class="cr-sub">(you)</span>`;
+            } else {
+                li.innerHTML = `<span class="profile-icon cr-avatar"></span> ${player}`;
+            }
+            playerList.appendChild(li);
+        });
+    }
 });
 
 socket.on('roomError', (errorMessage) => {

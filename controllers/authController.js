@@ -44,11 +44,31 @@ export const postSignup = async (req, res) => {
 };
 
 export const getMenu = (req, res) => {
-    res.render('menu');
+    res.render('menu', { user: req.user });
 };
 
 export const getProfile = (req, res) => {
     res.render('profile', { user: req.user });
+};
+
+export const postProfilePic = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.redirect('/profile');
+        }
+        
+        const username = req.user.username;
+        const user = await UserModel.findOne({ username });
+        
+        if (user) {
+            user.profilePic = '/uploads/' + req.file.filename;
+            await user.save();
+        }
+        res.redirect('/profile');
+    } catch (error) {
+        console.log("Error updating profile picture:", error);
+        res.redirect('/profile');
+    }
 };
 
 // Middleware to protect routes from unlogged people

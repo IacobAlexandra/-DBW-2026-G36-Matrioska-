@@ -7,7 +7,11 @@
                 <a href="/game/multiplayer" class="menu-link">Multiplayer Mode</a>
                 
                 <div class="profile-section" style="display: flex; align-items: center; gap: 1rem;">
-                    <div class="profile-icon avatar-sm" style="background-color: var(--input-bg);"></div>
+                    <% if (user && user.profilePic) { %>
+                        <img src="<%= user.profilePic %>" class="avatar-sm" alt="Profile" style="background-color: var(--input-bg);">
+                    <% } else { %>
+                        <div class="profile-icon avatar-sm" style="background-color: var(--input-bg);"></div>
+                    <% } %>
                     <a href="/profile" class="menu-link profile-link">Profile</a>
                 </div>
 
@@ -16,5 +20,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+<%- include('partials/footer') %>

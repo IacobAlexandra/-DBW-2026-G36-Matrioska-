@@ -98,23 +98,18 @@ function submitGuess() {
         return data;
     })
     .then(data => {
-        const feedback = document.getElementById('feedback-msg');
-
         if (data.status === "valid") {
             correctCount++;
             document.getElementById('my-correct').innerText = correctCount;
-            feedback.innerText = "Correct!";
-            feedback.style.color = "green";
+            showToast("Correct! +" + data.points, "success");
         } 
         else if (data.status === "invalid") {
             wrongCount++;
             document.getElementById('my-wrong').innerText = wrongCount;
-            feedback.innerText = "Invalid word!";
-            feedback.style.color = "red";
+            showToast("Invalid word!", "error");
         }
         else if (data.status === "duplicate") {
-            feedback.innerText = "Already found!";
-            feedback.style.color = "orange";
+            showToast("Already found!", "warning");
         }
 
         socket.emit('stateChanged', roomCode);
@@ -122,8 +117,28 @@ function submitGuess() {
     })
     .catch(err => {
         console.error("[FRONTEND CRASH] The Fetch request failed:", err);
-        alert("The server crashed instead of returning JSON! Check the VS Code Terminal.");
+        showToast("Server error!", "error");
     })
+}
+
+function showToast(message, type) {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
 }
 
 document.getElementById('exit-btn').addEventListener('click', () => {

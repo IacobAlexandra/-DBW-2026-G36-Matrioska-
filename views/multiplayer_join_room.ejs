@@ -8,9 +8,13 @@
                 <input type="text" id="room-code-input" class="jr-input">
             </div>
             
-            <p id="status-message" class="text-center" style="display: none; margin-top: 2rem;">
-                Successfully joined! Waiting for host to start...
-            </p>
+            <div id="lobby-section" style="display: none; margin-top: 2rem;">
+                <p class="cr-waiting" style="text-align: center;">Waiting for host to start...</p>
+                <div class="cr-left" style="margin: 0 auto; max-width: 400px;">
+                    <h2 class="cr-h2">Players in room:</h2>
+                    <ol class="cr-ul" id="player-list"></ol>
+                </div>
+            </div>
         </div>
 
         <div class="jr-btns">
@@ -22,5 +26,4 @@
     
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/multiplayer_join_room.js"></script>
-</body>
-</html>
+<%- include('partials/footer') %>
