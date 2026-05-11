@@ -60,6 +60,7 @@ const playAgainBtn = document.getElementById('play-again-btn');
 
 if (isHost) {
     playAgainBtn.addEventListener('click', () => {
+        sessionStorage.removeItem('finalRoomState'); 
         socket.emit('playAgain', roomCode);
     });
 } else {

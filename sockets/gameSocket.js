@@ -73,7 +73,7 @@ export const setupSockets = (io) => {
                 const room = activeRooms[roomCode];
 
                 if (room) {
-                    room.timeLeft = 15; 
+                    room.timeLeft = 10; 
 
                     const timerInterval = setInterval(() => {
                         if (!room) {
@@ -95,7 +95,6 @@ export const setupSockets = (io) => {
 
             socket.on('stateChanged', (roomCode) => {
                 if (activeRooms[roomCode]) {
-                    // Blast the freshly calculated scores from the backend to everyone's screen
                     io.to(roomCode).emit('gameStateUpdate', activeRooms[roomCode]);
                 }
             });
@@ -125,14 +124,26 @@ export const setupSockets = (io) => {
             
         });
 
-        socket.on('playAgain', (roomCode) => {
+        socket.on('playAgain', async (roomCode) => {
             const room = activeRooms[roomCode];
             if (room) {
-                // Reset all scores back to 0
                 for (let player in room.scores) {
                     room.scores[player] = 0;
                 }
-                // Tell everyone in the room to transition to the lobby!
+
+                room.foundWords = [];
+                
+                try {
+                    const newWordData = await getRandomWord();
+                     room.wordData = newWordData;
+                    room.masterWord = newWordData.masterWord;
+                    room.validSubWords = newWordData.validSubWords;
+                    room.word = newWordData;
+                } 
+                catch (error) {
+                    console.log("Error fetching new word for play again:", error);
+                }
+
                 io.to(roomCode).emit('goToLobby');
             }
         });

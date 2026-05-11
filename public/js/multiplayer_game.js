@@ -13,8 +13,10 @@ let wrongCount = 0;
 socket.emit('joinRoom', { roomCode, username });
 
 socket.on('gameStateUpdate', (roomState) => {
-      // Save the freshest room data to memory
+
     sessionStorage.setItem('finalRoomState', JSON.stringify(roomState));
+
+    const currentWord = roomState.wordData ? roomState.wordData.masterWord : roomState.masterWord;
 
     document.getElementById('master-word').innerText = roomState.masterWord || "Waiting...";
     document.getElementById('time-left').innerText = roomState.timeLeft || 0;
@@ -64,6 +66,10 @@ socket.on('gameStateUpdate', (roomState) => {
     if (roomState.validSubWords && roomState.foundWords) {
         const undiscovered = roomState.validSubWords.length - roomState.foundWords.length;
         document.getElementById('undiscovered-count').innerText = undiscovered;
+    }
+
+    if (currentWord) {
+        document.getElementById('master-word').innerText = currentWord;
     }
 });
 
